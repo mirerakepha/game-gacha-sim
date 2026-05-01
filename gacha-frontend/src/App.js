@@ -168,9 +168,16 @@ export default function App() {
           )}
         </div>
 
+
+
+        {/* ============================ THIS BUTTON IS THE EXPLOITATION TARGET ================================================== */}
         <button className={`spin-btn ${spinning ? "spinning" : ""}`} onClick={spin} disabled={spinning}>
           {spinning ? "OPENING..." : "⚔ SPIN"}
         </button>
+        {/* ====================================================================================================================== */}
+
+
+
 
         {collected.length > 0 && (
           <div className="history-row">

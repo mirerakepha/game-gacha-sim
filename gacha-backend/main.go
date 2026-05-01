@@ -72,7 +72,7 @@ var weights = map[string]int{
 	"lw2":  200,
 	"ep1":  500,
 	"ep2":  500,
-	"c100": 30,  // rarest coin
+	"c100": 30,
 	"c10a": 200,
 	"c10b": 200,
 	"c5a":  400,
@@ -96,7 +96,7 @@ type SessionState struct {
 var (
 	sessions = make(map[string]*SessionState)
 	sessionsMu sync.Mutex
-	rng = rand.new(rand.NewSource(time.Now().UnixNano()))
+	rng = rand.New(rand.NewSource(time.Now().UnixNano()))
 )
 
 func getOrCreateSession(id string) *SessionState {
@@ -173,13 +173,13 @@ var redeemCosts = map[string]int {
 
 
 func enableCORS(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.RequestWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 		if r.Method == http.MethodOptions {
-			w.WriteHeader(http.StatusOk)
+			w.WriteHeader(http.StatusOK)
 			return
 		}
 		next(w, r)		
@@ -187,13 +187,13 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 }
 
 
-func spinHandler(w.http.ResponseWriter, r *http.Request) {
+func spinHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	sessionID := r.URL.Query().get("session")
+	sessionID := r.URL.Query().Get("session")
 	if sessionID == "" {
 		sessionID = "default"
 	}
